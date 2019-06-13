@@ -17,8 +17,8 @@ fullnameOverride: ""
 service:
   enabled: true
   name:
-    firstservice: firstservice
-    secondservice: secondservice
+    firstservice: wnde-ui
+    secondservice: wnde-be
   type: ClusterIP
   port: 
     firstservice: 5000
