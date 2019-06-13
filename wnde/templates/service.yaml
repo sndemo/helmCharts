@@ -19,7 +19,6 @@ spec:
   selector:
     app.kubernetes.io/name: {{ .Values.service.name.firstservice }}
     app.kubernetes.io/instance: {{ .Release.Name }}
-{{ if (.Values.service.expose) }}
 ---
 kind: Service
 metadata:
