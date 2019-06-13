@@ -53,7 +53,7 @@ spec:
             {{- end }}
 {{ if .Values.service.enabled }}
             - name: http
-              containerPort: {{ .Values.service.port }}
+              containerPort: {{ .Values.service.port.firstservice }}
               protocol: TCP
 {{ if eq .Values.probe.type "tcp" }}
           readinessProbe:
