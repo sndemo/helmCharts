@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ .Values.service.name.firstservice }}
   labels:
-    app: {{ .Values.service.name.firstservice }}-{{ .Release.Namespace }}
+    appe: {{ .Values.service.name.firstservice }}-{{ .Release.Namespace }}
     app.kubernetes.io/name: {{ .Values.service.name.firstservice }}
     helm.sh/chart: {{ include "helm.chart" . }}
     app.kubernetes.io/instance: {{ .Release.Name }}
