@@ -1,0 +1,65 @@
+# Default values for helm.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: hclcloudworks/cloudworks
+  tag: 
+    nameservice: cisco.name.1
+    phoneservice: cisco.phone.1
+    helloservice: cisco.hello.1
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  enabled: true
+  name:
+    nameservice: name
+    phoneservice: phone
+    helloservice: hello 
+  type: ClusterIP
+  port: 
+    nameservice: 8080
+    phoneservice: 8080
+    helloservice: 8080
+  annotations:
+    traffic.sidecar.istio.io/excludeOutboundIPRanges: "0.0.0.0/0"
+  identifier: cisco
+  expose: true
+  external:
+    enabled: false
+probe:
+  type: tcp
+  path: /
+websocket:
+  enabled: false
+ingress:
+  enabled: false
+  annotations: {}
+  path: /
+  hosts:
+    - sample.micro-system.svc.cluster.local
+  tls: []
+
+
+resources: 
+  # We usually recommend not to specify default resources and to leave this as a conscious
+  # choice for the user. This also increases chances charts run on environments with little
+  # resources, such as Minikube. If you do want to specify resources, uncomment the following
+  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #  cpu: 100m
+  #  memory: 128Mi
+  requests:
+    cpu: 256m
+    memory: 512Mi
+    
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

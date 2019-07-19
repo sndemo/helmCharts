@@ -1,0 +1,46 @@
+{{ if (.Values.service.enabled) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.service.name.phoneservice }}
+  labels:
+    app: {{ .Values.service.name.phoneservice }}-{{ .Release.Namespace }}
+    app.kubernetes.io/name: {{ .Values.service.name.phoneservice }}
+    helm.sh/chart: {{ include "helm.chart" . }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/managed-by: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port.phoneservice }}
+      targetPort: http
+      protocol: TCP
+      name: http
+  selector:
+    app.kubernetes.io/name: {{ .Values.service.name.phoneservice }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+{{ if (.Values.service.expose) }}
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: istio-{{ .Values.service.name.phoneservice }}-vs
+spec:
+  hosts:
+  - "{{ .Values.service.name.phoneservice }}.{{ .Values.service.identifier }}.softwarization.net"
+  gateways:
+  - istio-istio-gateway.default.svc.cluster.local
+  http:
+  - match:
+    - uri:
+        prefix: "/"
+    route:
+    - destination:
+        port:
+          number: {{ .Values.service.port.phoneservice }} 
+        host: {{ .Values.service.name.phoneservice }}.{{ .Release.Namespace }}.svc.cluster.local
+
+---
+{{- end -}}
+{{- end -}}
